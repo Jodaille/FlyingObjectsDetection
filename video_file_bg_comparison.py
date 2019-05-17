@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# video_file_bg_comparison.py
 # import the necessary packages
 import argparse
 import numpy as np
