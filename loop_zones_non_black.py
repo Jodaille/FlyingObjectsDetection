@@ -63,11 +63,12 @@ while(1):
                 nonzero = cv2.countNonZero(cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY))
                 if (nonzero > nonzerothresold):
                     nbzone+=1
+                    torender=image.copy()
                     cv2.rectangle(canvas,(xpos,ypos),(xpos + zonewidth,ypos + zoneheight),(0,0,255),3)
-                    cv2.rectangle(image,(xpos,ypos),(xpos + zonewidth,ypos + zoneheight),(0,0,255),3)
+                    cv2.rectangle(torender,(xpos,ypos),(xpos + zonewidth,ypos + zoneheight),(0,0,255),3)
                     cv2.imshow('crop', crop)
-                    cv2.imshow('source', image)
-                    cv2.imwrite(destImgName, image)
+                    cv2.imshow('source', torender)
+                    #cv2.imwrite(destImgName, image)
                     print("nbzone %s xpos %d ypos %d nonzero %d" % (nbzone, xpos, ypos, nonzero))
                 if (nbzone == 0):
                     print("No Zone")
