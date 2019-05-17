@@ -20,34 +20,41 @@ bgheight, bgwidth, bgchannels = background.shape
 def nothing(x):
   pass
 
+# default found params
+threshold = 40
+width     = 54
+height    = 48
+nonzero   = 1500
+
+# GUI adjustments
 cv2.namedWindow('Options')
 cv2.createTrackbar('threshold','Options',0,255,nothing)
-cv2.setTrackbarPos('threshold', 'Options', 40) # default threshold value
-
-cv2.createTrackbar('width','Options',1,255,nothing)
-cv2.setTrackbarPos('width', 'Options', 54)
-cv2.createTrackbar('height','Options',1,255,nothing)
-cv2.setTrackbarPos('height', 'Options', 48)
+cv2.setTrackbarPos('threshold','Options', threshold) # default threshold value
+cv2.createTrackbar('width',  'Options',1,255,nothing)
+cv2.setTrackbarPos('width',  'Options', width)
+cv2.createTrackbar('height', 'Options',1,255,nothing)
+cv2.setTrackbarPos('height', 'Options', height)
 cv2.createTrackbar('nonzero','Options',1,3000,nothing)
-cv2.setTrackbarPos('nonzero', 'Options', 1500)
+cv2.setTrackbarPos('nonzero','Options', nonzero)
 
 while(1):
 
-    nbzone = 0
+    nbzone = 0 # detected zones counter
     threshold  = cv2.getTrackbarPos('threshold','Options')
     zonewidth  = cv2.getTrackbarPos('width','Options')
     zoneheight = cv2.getTrackbarPos('height','Options')
     nonzerothresold = cv2.getTrackbarPos('nonzero','Options')
 
-    height, width, channels = image.shape
+    height, width, channels = image.shape # image size
+
+    # how many zones in image
     croped_by_width = width / zonewidth
     croped_by_height = height / zoneheight
+
     ypos = 0
     xpos = 0
 
     diff = cv2.absdiff(image, background)
-
-    #mask = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
 
     #threshold = 40
     imask =  diff>threshold
@@ -55,6 +62,7 @@ while(1):
     canvas = np.zeros_like(image, np.uint8)
     canvas[imask] = image[imask]
 
+    # loop to crop images and draw zone(s) with "non zeros pixels"
     for y in xrange(croped_by_height): 
         for x in xrange(croped_by_width):
                 crop = cropZone(canvas,xpos, ypos, zoneheight, zonewidth)
@@ -78,7 +86,6 @@ while(1):
 
     cv2.imshow("VIDEO %s %s" % (bgheight, bgwidth), canvas)
 
-    #print("threshold = %d" % (threshold))
     k = cv2.waitKey(10) & 0xFF
     if k == 27:
         break
