@@ -64,8 +64,10 @@ while(1):
                 if (nonzero > nonzerothresold):
                     nbzone+=1
                     cv2.rectangle(canvas,(xpos,ypos),(xpos + zonewidth,ypos + zoneheight),(0,0,255),3)
+                    cv2.rectangle(image,(xpos,ypos),(xpos + zonewidth,ypos + zoneheight),(0,0,255),3)
                     cv2.imshow('crop', crop)
-                    cv2.imwrite(destImgName, crop)
+                    cv2.imshow('source', image)
+                    cv2.imwrite(destImgName, image)
                     print("nbzone %s xpos %d ypos %d nonzero %d" % (nbzone, xpos, ypos, nonzero))
                 if (nbzone == 0):
                     print("No Zone")
