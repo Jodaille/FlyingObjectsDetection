@@ -10,9 +10,10 @@ from os.path import basename, dirname
 from crop_utils import cropZone
 
 img_dir='/home/jody/opencvpython/bg_comparison/'
+img_dir = '/home/jody/VespaVelutina/FrelonDetecteurImages/pieces_jointes_15_09_2020/'
 
-background=cv2.imread(os.path.join(img_dir, 'background.png') )
-filename="vlcsnap-00030.png"
+background=cv2.imread(os.path.join(img_dir, 'capture_2.jpg') )
+filename="capture_52_F.JPG"
 image=cv2.imread(os.path.join(img_dir, filename))
 
 bgheight, bgwidth, bgchannels = background.shape
@@ -48,8 +49,8 @@ while(1):
     height, width, channels = image.shape # image size
 
     # how many zones in image
-    croped_by_width = width / zonewidth
-    croped_by_height = height / zoneheight
+    croped_by_width = width // zonewidth
+    croped_by_height = height // zoneheight
 
     ypos = 0
     xpos = 0
@@ -63,8 +64,8 @@ while(1):
     canvas[imask] = image[imask]
 
     # loop to crop images and draw zone(s) with "non zeros pixels"
-    for y in xrange(croped_by_height): 
-        for x in xrange(croped_by_width):
+    for y in range(croped_by_height):
+        for x in range(croped_by_width):
                 crop = cropZone(canvas,xpos, ypos, zoneheight, zonewidth)
                 destImgName = "crop_%s_x%d_y%d_h%d_w%d.jpg" % (filename,xpos, ypos, zoneheight, zonewidth)
 
